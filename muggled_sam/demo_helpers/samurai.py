@@ -186,14 +186,14 @@ class SimpleSamurai:
         prompt_object_pointers: list[Tensor],
         previous_memory_encodings: list[Tensor],
         previous_object_pointers: list[Tensor],
-    ) -> [bool, Tensor, Tensor, Tensor, tuple[tuple, tuple]]:
+    ) -> [Tensor, bool, Tensor, Tensor, Tensor, tuple[tuple, tuple]]:
         """
         Variant of original SAMv2 video tracking function, instead of using
         SAMv2 IoU predictions to select mask during tracking, this function
         uses SAMURAI to select the best mask.
 
         Returns:
-            is_ok_memory, best_mask_prediction, memory_encoding, best_object_point, xy1xy2_kalman_prediction
+            obj_score, is_ok_memory, best_mask_prediction, memory_encoding, best_object_point, xy1xy2_kalman_prediction
 
         - The returned kalman box is formatted as: [(x1, y1), (x2, y2)] in normalized (0 to 1) units
         """
@@ -239,7 +239,7 @@ class SimpleSamurai:
             xy_norm_scale = 1.0 / np.float32((mask_w - 1, mask_h - 1))
             xy1xy2_kal_norm = [xy * xy_norm_scale for xy in xy1xy2_kal_px]
 
-        return is_ok_mem, best_mask_pred, memory_encoding, best_obj_ptr, xy1xy2_kal_norm
+        return obj_score, is_ok_mem, best_mask_pred, memory_encoding, best_obj_ptr, xy1xy2_kal_norm
 
     # .................................................................................................................
 

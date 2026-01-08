@@ -80,7 +80,7 @@ try:
         # Process video frames with model & added SAMURAI post-processing
         t1 = perf_counter()
         encoded_imgs_list, _, _ = sammodel.encode_image(frame, **imgenc_config_dict)
-        is_mem_ok, best_mask_pred, mem_enc, obj_ptr, xy1xy2_kal = samurai.step_video_masking(
+        _, is_mem_ok, best_mask_pred, mem_enc, obj_ptr, xy1xy2_kal = samurai.step_video_masking(
             sammodel, encoded_imgs_list, prompt_mems, prompt_ptrs, prev_mems, prev_ptrs
         )
         t2 = perf_counter()
